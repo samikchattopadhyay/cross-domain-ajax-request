@@ -1,0 +1,61 @@
+<!Doctype html>
+<html>
+    <head>
+        <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                // Normal GET request works only on same domain
+                $('#ajax-request-1').click(function() {
+                    $.ajax({
+                        url: 'http://layzend.info/ajax-server.php',
+                        data: {example: 'First', name: 'Samik Chattopadhyay', blog: 'layzend.info'},
+                        success: function(d) {
+                            alert( 'The request is successful - \n\nExample : ' + d.example + '\nName : ' + d.name + '\nBlog : ' + d.blog);
+                        },
+                        error: function(d) {
+                            alert( 'The request has been failed - \n\nResponse Status' + d.statusText);
+                        },
+                        dataType: 'json'
+                    });
+                });
+
+                // Special measure needs to be taken for cross domain AJAX request
+                $('#ajax-request-2').click(function() {
+                    $.ajax({
+                        dataType: 'jsonp',
+                        data: {example : 'Second', name: 'Samik Chattopadhyay', blog: 'layzend.info'},
+                        jsonp: 'jsonp_callback',
+                        url: 'http://layzend.info/ajax-server.php',
+                        success: function(d) {
+                            alert( 'The request is successful - \n\nExample : ' + d.example + '\nName : ' + d.name + '\nBlog : ' + d.blog);
+                        },
+                        error: function(d) {
+                            alert( 'The request has been failed - \n\nStatus Text : ' + d.statusText);
+                        }
+                    });
+                });
+            });
+        </script>
+        <style>
+            button {padding: 30px 50px; margin: 40px; font-size: 32px;}
+            #ajax-result-1,#ajax-result-2 {width: 500px; text-align: center; margin: auto;}
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td width="50%" align="center" valign="top">
+                    <p>Normal GET request works only on same domain</p>
+                    <button id="ajax-request-1">Cross Domain AJAX Request</button>
+                    <div id="ajax-result-1"></div>
+                </td>
+                <td align="center" valign="top">
+                    <p>Special measure needs to be taken for cross domain AJAX request</p>
+                    <button id="ajax-request-2">Cross Domain AJAX Request</button>
+                    <div id="ajax-result-2"></div>
+                </td>
+            </tr>
+        </table>
+        <div id="ajax-result"></div>
+    </body>
+</html>
